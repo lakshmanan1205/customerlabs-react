@@ -2,11 +2,18 @@ import React, { useState } from "react";
 import Title from "../../ui/Title";
 import { Box, Button, Drawer } from "@mui/material";
 import AsideSchema from "./AsideSchema";
+import { useDispatch } from "react-redux";
+import { reset } from "./schemaSlice";
 
 export default function Segment() {
-  const [canOpenSchema, setCanOpenSchema] = useState(true);
+  const [canOpenSchema, setCanOpenSchema] = useState(false);
+  const dispatch = useDispatch();
   function handleSave() {
-    setCanOpenSchema((prevSchema) => (console.log(prevSchema), !prevSchema));
+    setCanOpenSchema((prevSchema) => !prevSchema);
+  }
+  function handleCancel() {
+    setCanOpenSchema(false);
+    dispatch(reset());
   }
   return (
     <div>
@@ -23,7 +30,7 @@ export default function Segment() {
           Save segment
         </Button>
         <Drawer open={canOpenSchema} anchor="right">
-          <AsideSchema onCancel={handleSave} />
+          <AsideSchema onCancel={handleCancel} />
         </Drawer>
       </Box>
     </div>
